@@ -39,7 +39,7 @@ public interface StudentInfoMapper extends BaseMapper<StudentInfoPo> {
      */
     IPage<StudentInfoPo> selectPageByClass(IPage<StudentInfoPo> page, @Param("classID") String classID);
 
-    IPage<StudentInfoPo> selectPage(IPage<StudentInfoPo> page, @Param("ew") QueryWrapper<StudentInfoPo> queryWrapper);
+    IPage<StudentInfoPo> selectPage(IPage<StudentInfoPo> page, @Param(Constants.WRAPPER) QueryWrapper<StudentInfoPo> queryWrapper);
 }
 
 

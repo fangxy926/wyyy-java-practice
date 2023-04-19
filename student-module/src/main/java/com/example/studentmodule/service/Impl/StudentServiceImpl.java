@@ -1,6 +1,5 @@
 package com.example.studentmodule.service.Impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
@@ -90,13 +89,13 @@ public class StudentServiceImpl implements StudentService {
     public ServerResponse<IPage<StudentInfoVo>> pageListOrderByAge(int pageNum, int pageSize, String order) {
         QueryWrapper<StudentInfoPo> queryWrapper = new QueryWrapper<>();
         // 根据年龄排序
-//        if ("asc".equals(order)) {
-//            queryWrapper.orderByAsc(" TIMESTAMPDIFF(YEAR, stu_birthday, CURDATE())");
-//        } else {
-//            queryWrapper.orderByDesc(" TIMESTAMPDIFF(YEAR, stu_birthday, CURDATE())");
-//        }
+        if ("asc".equals(order)) {
+            queryWrapper.orderByAsc(" TIMESTAMPDIFF(YEAR, stu_birthday, CURDATE())");
+        } else {
+            queryWrapper.orderByDesc(" TIMESTAMPDIFF(YEAR, stu_birthday, CURDATE())");
+        }
         // 根据学号升序
-        queryWrapper.lambda().orderByAsc(StudentInfoPo::getStuClassId);
+        queryWrapper.lambda().orderByAsc(StudentInfoPo::getStuId);
         IPage<StudentInfoPo> pageData = studentInfoMapper.selectPage(Page.of(pageNum, pageSize), queryWrapper);
         // 利用page.convert方法实现Do到Vo的转换
         IPage<StudentInfoVo> vos = pageData.convert(po -> {

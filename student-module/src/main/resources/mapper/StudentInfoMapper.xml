@@ -117,5 +117,6 @@
         select
         <include refid="Base_Column_List"></include>
         from student_info
+        ${ew.customSqlSegment}
     </select>
 </mapper>
