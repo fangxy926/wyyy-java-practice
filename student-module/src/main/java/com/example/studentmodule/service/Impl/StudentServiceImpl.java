@@ -1,5 +1,10 @@
 package com.example.studentmodule.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.commonmodule.response.ServerResponse;
 import com.example.studentmodule.mapper.StudentInfoMapper;
 import com.example.studentmodule.po.StudentInfoPo;
@@ -7,8 +12,13 @@ import com.example.studentmodule.service.StudentService;
 import com.example.studentmodule.util.ValidUtil;
 import com.example.studentmodule.vo.StudentInfoVo;
 import com.example.studentmodule.po.StudentInfoPoExt;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -53,6 +63,57 @@ public class StudentServiceImpl implements StudentService {
             vo.setStuClassName(poExt.getClassInfoPo().getClassName());
         }
         return ServerResponse.createBySuccess("获取成功", vo);
+    }
+
+    @Override
+    public ServerResponse<IPage<StudentInfoVo>> pageListByClass(String classID, int pageNum, int pageSize) {
+        IPage<StudentInfoPo> page = studentInfoMapper.selectPageByClass(Page.of(pageNum, pageSize), classID);
+        // 利用page.convert方法实现Do到Vo的转换
+        IPage<StudentInfoVo> vos = page.convert(po -> {
+            StudentInfoVo vo = new StudentInfoVo();
+            vo.setStuId(po.getStuId());
+            vo.setStuName(po.getStuName());
+            vo.setStuSex(po.getStuSex());
+            vo.setStuBirthday(po.getStuBirthday());
+            vo.setStuEngGrade(po.getStuEngGrade());
+            vo.setStuClassId(po.getStuClassId());
+            vo.setStuHight(po.getStuHight());
+            vo.setStuPhone(po.getStuPhone());
+            vo.setStuAdmissionDate(po.getStuAdmissionDate());
+            vo.setStuAddress(po.getStuAddress());
+            return vo;
+        });
+        return ServerResponse.createBySuccess("获取成功", vos);
+    }
+
+    @Override
+    public ServerResponse<IPage<StudentInfoVo>> pageListOrderByAge(int pageNum, int pageSize, String order) {
+        QueryWrapper<StudentInfoPo> queryWrapper = new QueryWrapper<>();
+        // 根据年龄排序
+//        if ("asc".equals(order)) {
+//            queryWrapper.orderByAsc(" TIMESTAMPDIFF(YEAR, stu_birthday, CURDATE())");
+//        } else {
+//            queryWrapper.orderByDesc(" TIMESTAMPDIFF(YEAR, stu_birthday, CURDATE())");
+//        }
+        // 根据学号升序
+        queryWrapper.lambda().orderByAsc(StudentInfoPo::getStuClassId);
+        IPage<StudentInfoPo> pageData = studentInfoMapper.selectPage(Page.of(pageNum, pageSize), queryWrapper);
+        // 利用page.convert方法实现Do到Vo的转换
+        IPage<StudentInfoVo> vos = pageData.convert(po -> {
+            StudentInfoVo vo = new StudentInfoVo();
+            vo.setStuId(po.getStuId());
+            vo.setStuName(po.getStuName());
+            vo.setStuSex(po.getStuSex());
+            vo.setStuBirthday(po.getStuBirthday());
+            vo.setStuEngGrade(po.getStuEngGrade());
+            vo.setStuClassId(po.getStuClassId());
+            vo.setStuHight(po.getStuHight());
+            vo.setStuPhone(po.getStuPhone());
+            vo.setStuAdmissionDate(po.getStuAdmissionDate());
+            vo.setStuAddress(po.getStuAddress());
+            return vo;
+        });
+        return ServerResponse.createBySuccess("获取成功", vos);
     }
 
     private ServerResponse<String> validStudentInfoCheck(StudentInfoPo student) {

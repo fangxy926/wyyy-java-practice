@@ -1,5 +1,6 @@
 package com.example.studentmodule.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.commonmodule.response.ServerResponse;
 import com.example.studentmodule.po.StudentInfoPo;
 import com.example.studentmodule.service.StudentService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -87,11 +89,35 @@ public class StudentInfoController {
         }
     }
 
-    @PostMapping(value = "/searchWithClass")
+    @PostMapping(value = "/searchWithClassInfo")
     @ApiOperation(value = "根据学号查询学生信息接口（含班级名称）")
     public ServerResponse<StudentInfoVo> getStudentInfoWithClass(@RequestParam(value = "studentID") String studentID) {
         try {
             return studentService.searchStudentInfoWithClassInfoByID(studentID);
+        } catch (Exception e) {
+            return ServerResponse.createByErrorMessage("获取失败");
+        }
+    }
+
+    @PostMapping(value = "/pageListByClass")
+    @ApiOperation(value = "根据班级代码获取班级所有学生的信息(分页)")
+    public ServerResponse<IPage<StudentInfoVo>> pageListByClass(@RequestParam(value = "classID") String classID,
+                                                                @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                                                @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        try {
+            return studentService.pageListByClass(classID, pageNum, pageSize);
+        } catch (Exception e) {
+            return ServerResponse.createByErrorMessage("获取失败");
+        }
+    }
+
+    @PostMapping(value = "/pageListOrderByAge")
+    @ApiOperation(value = "按照年龄排序获取所有学生列表数据(分页)")
+    public ServerResponse<IPage<StudentInfoVo>> pageListOrderByAge(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                                                   @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+                                                                   @RequestParam(value = "order", defaultValue = "desc") String order) {
+        try {
+            return studentService.pageListOrderByAge(pageNum, pageSize, order);
         } catch (Exception e) {
             return ServerResponse.createByErrorMessage("获取失败");
         }

@@ -106,4 +106,16 @@
                            on a.stu_class_id = b.class_id
         where a.stu_id = #{studentID,jdbcType=VARCHAR}
     </select>
+
+    <select id="selectPageByClass" resultType="com.example.studentmodule.po.StudentInfoPo">
+        select
+        <include refid="Base_Column_List"></include>
+        from student_info
+        where stu_class_id = #{classID,jdbcType=VARCHAR}
+    </select>
+    <select id="selectPage" resultType="com.example.studentmodule.po.StudentInfoPo">
+        select
+        <include refid="Base_Column_List"></include>
+        from student_info
+    </select>
 </mapper>

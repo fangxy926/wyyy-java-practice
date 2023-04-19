@@ -7,10 +7,10 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.example.studentmodule.common.EngGrade.FOUR_DEGREE;
-import static com.example.studentmodule.common.EngGrade.SIX_DEGREE;
-import static com.example.studentmodule.common.Sex.FEMALE;
-import static com.example.studentmodule.common.Sex.MALE;
+import static com.example.studentmodule.Enum.EngGrade.FOUR_DEGREE;
+import static com.example.studentmodule.Enum.EngGrade.SIX_DEGREE;
+import static com.example.studentmodule.Enum.Sex.FEMALE;
+import static com.example.studentmodule.Enum.Sex.MALE;
 
 public class ValidUtil {
 

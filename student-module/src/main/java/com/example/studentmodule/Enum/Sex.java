@@ -1,4 +1,4 @@
-package com.example.studentmodule.common;
+package com.example.studentmodule.Enum;
 
 public enum Sex {
     MALE("男"),
