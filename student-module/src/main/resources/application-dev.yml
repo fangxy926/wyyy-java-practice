@@ -1,0 +1,29 @@
+server:
+  port:8088
+
+spring:
+  datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://192.168.21.129:3306/course?autoReconnect=true&useSSL=false&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+      username: test
+      password: 12345678
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      max-wait: 10000
+      time-between-eviction-runs-millis: 60000
+
+mybatis-plus:
+  configuration:
+    cache-enabled: true
+    use-generated-keys: true
+    default-executor-type: REUSE
+    use-actual-param-name: true
+
+# swagger配置
+springfox:
+  documentation:
+    enabled: true #是否启用
+
+logging:
+  config: classpath:logConfig/logback-dev.xml
