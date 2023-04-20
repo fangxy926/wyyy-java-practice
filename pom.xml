@@ -15,6 +15,7 @@
     <modules>
         <module>common-module</module>
         <module>student-module</module>
+        <module>course-select-module</module>
     </modules>
     <name>CourseDemo</name>
     <description>CourseDemo</description>
@@ -71,6 +72,5 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
-
     </build>
 </project>

@@ -1,15 +1,16 @@
-package com.example.studentmodule.util;
+package com.example.commonmodule.utils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.Date;
 
 public class DateUtil {
     static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     static final DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    static final DateFormat hourMinuteFormat = new SimpleDateFormat("hh:mm");
+    static final DateFormat yearFormat = new SimpleDateFormat("yyyy");
 
     /**
      * 将String转为Date类型
@@ -41,13 +42,45 @@ public class DateUtil {
      */
     public static boolean isYear(String str) {
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
-            dateFormat.setLenient(false);
+            yearFormat.setLenient(false);
             Date date = dateFormat.parse(str);
             return true;
         } catch (ParseException e) {
             return false;
         }
+    }
+
+    /**
+     * 返回时、分
+     *
+     * @param date
+     * @return
+     */
+    public static String getHourMinute(Date date) {
+        return hourMinuteFormat.format(date);
+    }
+
+
+    /**
+     * Date 转化成 LocalTime
+     *
+     * @param date
+     * @return
+     */
+    public static LocalTime dateToLocalTime(Date date) {
+        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+        return zonedDateTime.toLocalTime();
+    }
+
+    /**
+     * Date 转化成 LocalDateTime
+     *
+     * @param date
+     * @return
+     */
+    public static LocalDateTime dateToLocalDateTime(Date date) {
+        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+        return zonedDateTime.toLocalDateTime();
     }
 
 }

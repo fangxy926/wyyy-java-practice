@@ -6,12 +6,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication
-@MapperScan(basePackages = "com.example.studentmodule.mapper")
 @EnableCaching
-public class StudentModuleApplication {
+@MapperScan({"com.example.**.mapper"})
+public class CourseSystemApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(StudentModuleApplication.class, args);
+        SpringApplication.run(CourseSystemApplication.class, args);
     }
 
 }

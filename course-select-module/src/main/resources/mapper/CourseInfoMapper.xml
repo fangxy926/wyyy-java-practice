@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.courseselectmodule.mapper.CourseInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.courseselectmodule.po.CourseInfoPo">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="courseId" column="course_id" jdbcType="VARCHAR"/>
+        <result property="courseName" column="course_name" jdbcType="VARCHAR"/>
+        <result property="courseLimit" column="course_limit" jdbcType="INTEGER"/>
+        <result property="courseWeekDay" column="course_week_day" jdbcType="INTEGER"/>
+        <result property="courseStartTime" column="course_start_time" jdbcType="TIME"/>
+        <result property="courseEndTime" column="course_end_time" jdbcType="TIME"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,course_id,course_name,
+        course_limit,course_week_day,course_start_time,
+        course_end_time
+    </sql>
+
+    <select id="selectCourseListByStudentId" resultType="com.example.courseselectmodule.po.CourseInfoPo">
+        select
+        <include refid="Base_Column_List"></include>
+        from student_course_info a
+        left join course_info b on a.course_id = b.course_id
+        where a.stu_id = #{studentId,jdbcType=VARCHAR}
+    </select>
+    <select id="selectCourse" resultType="com.example.courseselectmodule.po.CourseInfoPo">
+        select
+        <include refid="Base_Column_List"></include>
+        from course_info
+        where course_id = #{courseId,jdbcType=VARCHAR}
+    </select>
+    <select id="batchSelectCourse" resultType="com.example.courseselectmodule.po.CourseInfoPo">
+        select
+        <include refid="Base_Column_List"></include>
+        from course_info
+        where course in
+        <choose>
+            <when test="courseIdList != null and courseIdList.size() > 0">
+                <foreach collection="courseIdList" item="courseId" open="(" close=")" separator=",">
+                    #{courseId, jdbcType=VARCHAR}
+                </foreach>
+            </when>
+            <otherwise>
+                (null)
+            </otherwise>
+        </choose>
+    </select>
+</mapper>

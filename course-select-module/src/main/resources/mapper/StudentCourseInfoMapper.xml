@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.courseselectmodule.mapper.StudentCourseInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.courseselectmodule.po.StudentCourseInfoPo">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="stuId" column="stu_id" jdbcType="VARCHAR"/>
+        <result property="courseId" column="course_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,stu_id,course_id
+    </sql>
+
+    <sql id="Student_Info_Column_List">
+        stu_id
+        ,stu_name,stu_sex,stu_birthday,stu_eng_grade,stu_class_id,
+        stu_height,stu_phone,stu_address,stu_admission_date
+    </sql>
+
+    <sql id="Course_Info_Column_List">
+        course_id
+        ,course_name,
+        course_limit,course_week_day,course_start_time,
+        course_end_time
+    </sql>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into student_course_info(stu_id, course_id)
+        values
+        <foreach collection="studentCourseList" item="item" separator=",">
+            ( #{item.stuId}, #{item.courseId})
+        </foreach>
+    </insert>
+    <insert id="insert">
+        insert into student_course_info(stu_id, course_id)
+        values (#{item.stuId}, #{item.courseId})
+    </insert>
+
+
+    <select id="selectByCourse" parameterType="com.example.courseselectmodule.dto.CourseInfoDto"
+            resultType="com.example.studentmodule.po.StudentInfoPo">
+        select
+        <include refid="Student_Info_Column_List"></include>
+        from student_course_info a
+        left join student_info b
+        on a.student_id = b.stu_id
+        where course_id = #{courseId,jdbcType=VARCHAR}
+    </select>
+    <select id="countStudents" resultType="java.lang.Integer">
+        select count(*)
+        from student_course_info
+        where course_id = #{courseId,jdbcType=VARCHAR}
+    </select>
+    <select id="countCourse" resultType="java.lang.Integer">
+        select count(*)
+        from student_course_info
+        where student_id = #{studentId,jdbcType=VARCHAR}
+    </select>
+    <select id="checkExist" resultType="java.lang.Integer">
+        select count(*)
+        from student_course_info
+        where student_id = #{studentInfo.stuId}
+        and course_id in
+        <choose>
+            <when test="courseList != null and courseList.size() > 0">
+                <foreach collection="courseList" item="course" open="(" close=")" separator=",">
+                    #{course.courseId,jdbcType=VARCHAR}
+                </foreach>
+            </when>
+            <otherwise>
+                (null)
+            </otherwise>
+        </choose>
+    </select>
+</mapper>
