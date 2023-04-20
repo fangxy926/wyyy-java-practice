@@ -3,11 +3,8 @@ package com.example.studentmodule.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.commonmodule.response.ServerResponse;
-import com.example.studentmodule.po.StudentInfoPo;
-import com.example.studentmodule.po.StudentInfoPoExt;
+import com.example.studentmodule.dto.StudentInfoDto;
 import com.example.studentmodule.vo.StudentInfoVo;
-
-import java.util.List;
 
 public interface StudentService {
 
@@ -17,7 +14,7 @@ public interface StudentService {
      * @param student
      * @return
      */
-    ServerResponse<String> addStudent(StudentInfoPo student);
+    ServerResponse<String> addStudent(StudentInfoDto student);
 
     /**
      * 修改学生信息
@@ -25,7 +22,7 @@ public interface StudentService {
      * @param student
      * @return
      */
-    ServerResponse<String> updateStudent(StudentInfoPo student);
+    ServerResponse<String> updateStudent(StudentInfoDto student);
 
     /**
      * 根据学号查询学生信息接口（无班级名称）
@@ -44,7 +41,7 @@ public interface StudentService {
     ServerResponse<StudentInfoVo> searchStudentInfoWithClassInfoByID(String studentID);
 
     /**
-     * 根据班级代码获取班级所有学生的信息
+     * 根据班级代码获取班级所有学生的信息（分页）
      *
      * @param classID
      * @param pageNum
@@ -54,7 +51,7 @@ public interface StudentService {
     ServerResponse<IPage<StudentInfoVo>> pageListByClass(String classID, int pageNum, int pageSize);
 
     /**
-     * pageListOrderByAge
+     * 按照年龄排序获取所有学生列表数据（分页）
      *
      * @param pageNum
      * @param pageSize

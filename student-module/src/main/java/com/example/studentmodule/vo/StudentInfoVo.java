@@ -49,7 +49,7 @@ public class StudentInfoVo implements Serializable {
     /**
      * 身高
      */
-    private BigDecimal stuHight;
+    private BigDecimal stuHeight;
 
     /**
      * 自我介绍
@@ -186,15 +186,15 @@ public class StudentInfoVo implements Serializable {
     /**
      * 身高
      */
-    public BigDecimal getStuHight() {
-        return stuHight;
+    public BigDecimal getStuHeight() {
+        return stuHeight;
     }
 
     /**
      * 身高
      */
-    public void setStuHight(BigDecimal stuHight) {
-        this.stuHight = stuHight;
+    public void setStuHeight(BigDecimal stuHeight) {
+        this.stuHeight = stuHeight;
     }
 
     /**

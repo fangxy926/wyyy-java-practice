@@ -4,14 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.studentmodule.po.StudentInfoPo;
 import com.example.studentmodule.po.StudentInfoPoExt;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.reflection.wrapper.BaseWrapper;
-
-import java.util.List;
 
 /**
  * @author yangman
@@ -39,6 +35,13 @@ public interface StudentInfoMapper extends BaseMapper<StudentInfoPo> {
      */
     IPage<StudentInfoPo> selectPageByClass(IPage<StudentInfoPo> page, @Param("classID") String classID);
 
+    /**
+     * 按照年龄排序获取所有学生列表数据（分页）
+     *
+     * @param page
+     * @param queryWrapper
+     * @return
+     */
     IPage<StudentInfoPo> selectPage(IPage<StudentInfoPo> page, @Param(Constants.WRAPPER) QueryWrapper<StudentInfoPo> queryWrapper);
 }
 

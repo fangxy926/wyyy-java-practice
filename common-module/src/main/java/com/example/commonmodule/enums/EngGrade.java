@@ -1,4 +1,4 @@
-package com.example.studentmodule.Enum;
+package com.example.commonmodule.enums;
 
 public enum EngGrade {
     FOUR_DEGREE("4级"),

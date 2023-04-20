@@ -12,7 +12,7 @@
         <result property="stuBirthday" column="stu_birthday" jdbcType="TIMESTAMP"/>
         <result property="stuEngGrade" column="stu_eng_grade" jdbcType="VARCHAR"/>
         <result property="stuClassId" column="stu_class_id" jdbcType="VARCHAR"/>
-        <result property="stuHight" column="stu_hight" jdbcType="DECIMAL"/>
+        <result property="stuHeight" column="stu_height" jdbcType="DECIMAL"/>
         <result property="stuIntro" column="stu_intro" jdbcType="VARCHAR"/>
         <result property="stuPhone" column="stu_phone" jdbcType="VARCHAR"/>
         <result property="stuAddress" column="stu_address" jdbcType="VARCHAR"/>
@@ -28,7 +28,7 @@
         <result property="stuBirthday" column="stu_birthday" jdbcType="TIMESTAMP"/>
         <result property="stuEngGrade" column="stu_eng_grade" jdbcType="VARCHAR"/>
         <result property="stuClassId" column="stu_class_id" jdbcType="VARCHAR"/>
-        <result property="stuHight" column="stu_hight" jdbcType="DECIMAL"/>
+        <result property="stuHeight" column="stu_height" jdbcType="DECIMAL"/>
         <result property="stuPhone" column="stu_phone" jdbcType="VARCHAR"/>
         <result property="stuAddress" column="stu_address" jdbcType="VARCHAR"/>
         <result property="stuAdmissionDate" column="stu_admission_date" jdbcType="TIMESTAMP"/>
@@ -41,7 +41,7 @@
         id
         ,stu_id,stu_name,
         stu_sex,stu_birthday,stu_eng_grade,
-        stu_class_id,stu_hight,stu_intro,
+        stu_class_id,stu_height,stu_intro,
         stu_phone,stu_address,stu_admission_date,
         stu_piny
     </sql>
@@ -49,10 +49,10 @@
             parameterType="com.example.studentmodule.po.StudentInfoPo"
             useGeneratedKeys="true">
         insert into student_info (stu_id, stu_name, stu_sex, stu_birthday, stu_eng_grade,
-                                  stu_class_id, stu_hight, stu_intro, stu_phone, stu_address,
+                                  stu_class_id, stu_height, stu_intro, stu_phone, stu_address,
                                   stu_admission_date, stu_piny)
         values (#{stuId}, #{stuName}, #{stuSex}, #{stuBirthday}, #{stuEngGrade}, #{stuClassId},
-                #{stuHight}, #{stuIntro}, #{stuPhone}, #{stuAddress}, #{stuAdmissionDate}, #{stuPiny})
+                #{stuHeight}, #{stuIntro}, #{stuPhone}, #{stuAddress}, #{stuAdmissionDate}, #{stuPiny})
     </insert>
     <update id="updateStudent" parameterType="com.example.studentmodule.po.StudentInfoPo">
         update student_info
@@ -72,8 +72,8 @@
             <if test="stuClassId != null">
                 stu_class_id = #{stuClassId},
             </if>
-            <if test="stuHight != null">
-                stu_hight = #{stuHight},
+            <if test="stuHeight != null">
+                stu_height = #{stuHeight},
             </if>
             <if test="stuIntro != null">
                 stu_intro = #{stuIntro},
