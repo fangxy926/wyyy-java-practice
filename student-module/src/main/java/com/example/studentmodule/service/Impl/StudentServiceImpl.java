@@ -2,22 +2,17 @@ package com.example.studentmodule.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.commonmodule.response.ServerResponse;
 import com.example.studentmodule.mapper.StudentInfoMapper;
 import com.example.studentmodule.po.StudentInfoPo;
+import com.example.studentmodule.po.StudentInfoPoExt;
 import com.example.studentmodule.service.StudentService;
 import com.example.studentmodule.util.ValidUtil;
 import com.example.studentmodule.vo.StudentInfoVo;
-import com.example.studentmodule.po.StudentInfoPoExt;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -26,6 +21,7 @@ public class StudentServiceImpl implements StudentService {
     private StudentInfoMapper studentInfoMapper;
 
     @Override
+    @Cacheable(cacheNames = "student_info_cache", keyGenerator = "apiKeyGenerator")
     public ServerResponse<StudentInfoVo> searchStudentInfoByID(String studentID) {
         StudentInfoPo studentInfoPo = studentInfoMapper.selectByID(studentID);
         StudentInfoVo vo = new StudentInfoVo();
@@ -45,6 +41,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Cacheable(cacheNames = "student_info_cache", keyGenerator = "apiKeyGenerator")
     public ServerResponse<StudentInfoVo> searchStudentInfoWithClassInfoByID(String studentID) {
         StudentInfoPoExt poExt = studentInfoMapper.selectStudentInfoWithClassInfoByID(studentID);
         StudentInfoVo vo = new StudentInfoVo();

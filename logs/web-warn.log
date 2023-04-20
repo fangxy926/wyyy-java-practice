@@ -1,41 +1,4 @@
-[2023-04-19 15:54:59.496 WARN ] [168189089936566d877e85a76493f9985eaedd779aaca http-nio-8080-exec-7] [com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor] : optimize this sql to a count sql has exception, sql:"select
-         
-        id
-        ,stu_id,stu_name,
-        stu_sex,stu_birthday,stu_eng_grade,
-        stu_class_id,stu_hight,stu_intro,
-        stu_phone,stu_address,stu_admission_date,
-        stu_piny
-     
-        from student_info
-        order by TIMESTAMPDIFF(YEAR, stu_birthday,CURDATE()) ?", exception:
-net.sf.jsqlparser.parser.ParseException: Encountered unexpected token: "?" "?"
-    at line 11, column 62.
-
-Was expecting one of:
-
-    "&"
-    "."
-    "::"
-    ";"
-    "<<"
-    ">>"
-    "ASC"
-    "COLLATE"
-    "DESC"
-    "EMIT"
-    "NULLS"
-    "["
-    "^"
-    "|"
-    <EOF>
-
-[2023-04-19 16:26:10.071 WARN ] [ main] [com.baomidou.mybatisplus.core.injector.AbstractMethod] : [com.example.studentmodule.mapper.StudentInfoMapper.selectPage] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.SelectPage]
-[2023-04-19 16:28:24.595 WARN ] [ main] [com.baomidou.mybatisplus.core.injector.AbstractMethod] : [com.example.studentmodule.mapper.StudentInfoMapper.selectPage] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.SelectPage]
-[2023-04-19 16:29:40.091 WARN ] [ main] [com.baomidou.mybatisplus.core.injector.AbstractMethod] : [com.example.studentmodule.mapper.StudentInfoMapper.selectPage] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.SelectPage]
-[2023-04-19 16:35:04.425 WARN ] [ main] [com.baomidou.mybatisplus.core.injector.AbstractMethod] : [com.example.studentmodule.mapper.StudentInfoMapper.selectPage] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.SelectPage]
-[2023-04-19 18:58:16.137 WARN ] [ main] [com.baomidou.mybatisplus.core.injector.AbstractMethod] : [com.example.studentmodule.mapper.StudentInfoMapper.selectPage] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.SelectPage]
-[2023-04-19 18:59:21.515 WARN ] [ main] [com.baomidou.mybatisplus.core.injector.AbstractMethod] : [com.example.studentmodule.mapper.StudentInfoMapper.selectPage] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.SelectPage]
-[2023-04-19 19:01:56.923 WARN ] [ main] [com.baomidou.mybatisplus.core.injector.AbstractMethod] : [com.example.studentmodule.mapper.StudentInfoMapper.selectPage] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.SelectPage]
-[2023-04-19 19:03:45.518 WARN ] [ main] [com.baomidou.mybatisplus.core.injector.AbstractMethod] : [com.example.studentmodule.mapper.StudentInfoMapper.selectPage] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.SelectPage]
-[2023-04-19 19:04:33.853 WARN ] [ main] [com.baomidou.mybatisplus.core.injector.AbstractMethod] : [com.example.studentmodule.mapper.StudentInfoMapper.selectPage] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.SelectPage]
+[2023-04-20 08:20:23.410 WARN ] [ main] [com.baomidou.mybatisplus.core.injector.AbstractMethod] : [com.example.studentmodule.mapper.StudentInfoMapper.selectPage] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.SelectPage]
+[2023-04-20 08:23:18.079 WARN ] [ main] [com.baomidou.mybatisplus.core.injector.AbstractMethod] : [com.example.studentmodule.mapper.StudentInfoMapper.selectPage] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.SelectPage]
+[2023-04-20 08:24:00.204 WARN ] [ main] [com.baomidou.mybatisplus.core.injector.AbstractMethod] : [com.example.studentmodule.mapper.StudentInfoMapper.selectPage] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.SelectPage]
+[2023-04-20 08:27:54.962 WARN ] [ main] [com.baomidou.mybatisplus.core.injector.AbstractMethod] : [com.example.studentmodule.mapper.StudentInfoMapper.selectPage] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.SelectPage]
