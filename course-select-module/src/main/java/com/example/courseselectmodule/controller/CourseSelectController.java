@@ -9,6 +9,8 @@ import com.example.courseselectmodule.vo.CourseInfoVo;
 import com.example.studentmodule.vo.StudentInfoVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,12 +24,16 @@ public class CourseSelectController {
     @Autowired
     private CourseSelectService courseSelectService;
 
+    private static final Logger logger = LoggerFactory.getLogger(CourseSelectController.class);
+
     @PostMapping(value = "/submit")
     @ApiOperation(value = "学生报选选修课接口")
     public ServerResponse<String> submitCourse(@RequestBody StudentSelectedCourseDto dto) {
         try {
             return courseSelectService.submitSelection(dto);
         } catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.toString());
             return ServerResponse.createByErrorMessage("选课失败，内部错误");
         }
     }
@@ -38,6 +44,7 @@ public class CourseSelectController {
         try {
             return courseSelectService.listByStudentId(studentId);
         } catch (Exception e) {
+            logger.error(e.toString());
             return ServerResponse.createByErrorMessage("选课失败，内部错误");
         }
     }
@@ -48,8 +55,9 @@ public class CourseSelectController {
         try {
             return courseSelectService.batchListCourseInfo(courseList);
         } catch (Exception e) {
-            return ServerResponse.createByErrorMessage("选课失败，内部错误");
-
+            logger.error(e.toString());
+            e.printStackTrace();
+            return ServerResponse.createByErrorMessage("获取失败，内部错误");
         }
     }
 
@@ -61,7 +69,8 @@ public class CourseSelectController {
             dto.setCourseId(courseId);
             return courseSelectService.listStudentInfo(dto);
         } catch (Exception e) {
-            return ServerResponse.createByErrorMessage("选课失败，内部错误");
+            logger.error(e.toString());
+            return ServerResponse.createByErrorMessage("获取失败，内部错误");
         }
     }
 }

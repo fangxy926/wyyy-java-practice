@@ -35,19 +35,27 @@
             ( #{item.stuId}, #{item.courseId})
         </foreach>
     </insert>
-    <insert id="insert">
+    <insert id="insert" parameterType="com.example.courseselectmodule.dto.StudentCourseInfoDto">
         insert into student_course_info(stu_id, course_id)
-        values (#{item.stuId}, #{item.courseId})
+        values (#{stuId}, #{courseId})
     </insert>
 
 
     <select id="selectByCourse" parameterType="com.example.courseselectmodule.dto.CourseInfoDto"
             resultType="com.example.studentmodule.po.StudentInfoPo">
-        select
-        <include refid="Student_Info_Column_List"></include>
+        select b.stu_id,
+               b.stu_name,
+               b.stu_sex,
+               b.stu_birthday,
+               b.stu_eng_grade,
+               b.stu_class_id,
+               b.stu_height,
+               b.stu_phone,
+               b.stu_address,
+               b.stu_admission_date
         from student_course_info a
-        left join student_info b
-        on a.student_id = b.stu_id
+                 left join student_info b
+                           on a.stu_id = b.stu_id
         where course_id = #{courseId,jdbcType=VARCHAR}
     </select>
     <select id="countStudents" resultType="java.lang.Integer">
@@ -58,12 +66,12 @@
     <select id="countCourse" resultType="java.lang.Integer">
         select count(*)
         from student_course_info
-        where student_id = #{studentId,jdbcType=VARCHAR}
+        where stu_id = #{studentId,jdbcType=VARCHAR}
     </select>
     <select id="checkExist" resultType="java.lang.Integer">
         select count(*)
         from student_course_info
-        where student_id = #{studentInfo.stuId}
+        where stu_id = #{studentInfo.stuId}
         and course_id in
         <choose>
             <when test="courseList != null and courseList.size() > 0">

@@ -16,7 +16,7 @@ import java.util.List;
 @Mapper
 public interface CourseInfoMapper {
 
-    List<CourseInfoPo> selectCourseListByStudentId(String studentId);
+    List<CourseInfoPo> selectCourseListByStudentId(@Param("studentId") String studentId);
 
     CourseInfoPo selectCourse(CourseInfoDto courseInfoDto);
 

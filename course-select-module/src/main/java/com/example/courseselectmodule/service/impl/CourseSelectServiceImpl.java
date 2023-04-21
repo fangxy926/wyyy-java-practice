@@ -51,29 +51,31 @@ public class CourseSelectServiceImpl implements CourseSelectService {
 
     @Override
     public ServerResponse<String> submitSelection(StudentSelectedCourseDto studentSelectedCourseDto) {
-        StudentInfoDto studentInfo = studentSelectedCourseDto.getStudentInfo();
-        List<CourseInfoDto> courseList = studentSelectedCourseDto.getCourseList();
-
+        StudentInfoDto studentInfo = new StudentInfoDto();
+        studentInfo.setStuId(studentSelectedCourseDto.getStudentId());
+        List<CourseInfoDto> courseInfoDtoList = studentSelectedCourseDto.getCourseList();
         // 校验课程是否存在已选的课程
-        Set<String> courseSet = courseList.stream()
+        Set<String> courseSet = courseInfoDtoList.stream()
                 .map(CourseInfoDto::getCourseId)
                 .collect(Collectors.toSet());
-        if (courseSet.size() != courseList.size()) {
+        if (courseSet.size() != courseInfoDtoList.size()) {
             return ServerResponse.createByErrorMessage("存在重复选报的课程");
         }
-        int count = studentCourseInfoPoMapper.checkExist(studentInfo, courseList);
+        int count = studentCourseInfoPoMapper.checkExist(studentInfo, courseInfoDtoList);
         if (count > 0) {
             return ServerResponse.createByErrorMessage("存在重复选报的课程");
         }
         // 校验选课数上限
         int courseCount = studentCourseInfoPoMapper.countCourse(studentInfo.getStuId());
-        if (courseList.size() > 2 || courseCount + courseList.size() > 2) {
+        if (courseInfoDtoList.size() > 2 || courseCount + courseInfoDtoList.size() > 2) {
             return ServerResponse.createByErrorMessage("每个学生最多只能报选2门选修课");
         }
+        // 从数据库中获取课程最新数据
+        List<CourseInfoPo> candidateCourse = courseInfoMapper.batchSelectCourse(new ArrayList<>(courseSet));
         // 校验课程最大报选人数上限
-        for (CourseInfoDto courseInfoDto : courseList) {
-            int limit = courseInfoDto.getCourseLimit();
-            int studentCount = studentCourseInfoPoMapper.countStudents(courseInfoDto.getCourseId());
+        for (CourseInfoPo courseInfoPo : candidateCourse) {
+            int limit = courseInfoPo.getCourseLimit();
+            int studentCount = studentCourseInfoPoMapper.countStudents(courseInfoPo.getCourseId());
             if (studentCount + 1 > limit) {
                 return ServerResponse.createByErrorMessage("超出课程人数容量上限！");
             }
@@ -81,7 +83,7 @@ public class CourseSelectServiceImpl implements CourseSelectService {
         // 校验时间是否有交集
         // 获取已选课程信息
         List<CourseInfoPo> selectedCourse = courseInfoMapper.selectCourseListByStudentId(studentInfo.getStuId());
-        // 将Dto和Po统一封装为CourseSchedule对象
+        // 统一封装为CourseSchedule对象
         List<CourseSchedule> courseSchedules = new ArrayList<>();
         for (CourseInfoPo course : selectedCourse) {
             CourseSchedule cs = new CourseSchedule(course.getCourseWeekDay(),
@@ -89,7 +91,7 @@ public class CourseSelectServiceImpl implements CourseSelectService {
                     DateUtil.dateToLocalTime(course.getCourseEndTime()));
             courseSchedules.add(cs);
         }
-        for (CourseInfoDto course : courseList) {
+        for (CourseInfoPo course : candidateCourse) {
             CourseSchedule cs = new CourseSchedule(course.getCourseWeekDay(),
                     DateUtil.dateToLocalTime(course.getCourseStartTime()),
                     DateUtil.dateToLocalTime(course.getCourseEndTime()));
@@ -101,10 +103,10 @@ public class CourseSelectServiceImpl implements CourseSelectService {
 
         // 校验通过，正常插入选课，采用批量插入方式
         List<StudentCourseInfoDto> studentCourseInfoDtos = new ArrayList<>();
-        for (CourseInfoDto courseInfoDto : courseList) {
+        for (CourseInfoPo courseInfoPo : candidateCourse) {
             StudentCourseInfoDto dto = new StudentCourseInfoDto();
             dto.setStuId(studentInfo.getStuId());
-            dto.setCourseId(courseInfoDto.getCourseId());
+            dto.setCourseId(courseInfoPo.getCourseId());
             studentCourseInfoDtos.add(dto);
         }
         SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
@@ -121,8 +123,8 @@ public class CourseSelectServiceImpl implements CourseSelectService {
 
 
     private String getCourseTimeString(Integer week, Date st, Date et) {
-        return weekDayMap.get(week) + " "
-                + DateUtil.getHourMinute(st) + " - "
+        return weekDayMap.get(week).getName() + " "
+                + DateUtil.getHourMinute(st) + "-"
                 + DateUtil.getHourMinute(et);
     }
 
@@ -194,7 +196,7 @@ public class CourseSelectServiceImpl implements CourseSelectService {
         vo.setCourseName(po.getCourseName());
         int studentCount = studentCourseInfoPoMapper.countStudents(po.getCourseId());
         vo.setCourseSelected(studentCount);
-        vo.setCourseRemain(vo.getCourseLimit() - vo.getCourseSelected());
+        vo.setCourseRemain(po.getCourseLimit() - vo.getCourseSelected());
         vo.setCourseLimit(po.getCourseLimit());
         vo.setCourseTimeRange(this.getCourseTimeString(po.getCourseWeekDay(),
                 po.getCourseStartTime(), po.getCourseEndTime()));

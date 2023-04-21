@@ -20,25 +20,35 @@
         course_limit,course_week_day,course_start_time,
         course_end_time
     </sql>
+    <sql id="Course_Column_List">
+        course_id
+        ,course_name,
+        course_limit,course_week_day,course_start_time,
+        course_end_time
+    </sql>
 
     <select id="selectCourseListByStudentId" resultType="com.example.courseselectmodule.po.CourseInfoPo">
-        select
-        <include refid="Base_Column_List"></include>
+        select b.course_id,
+               b.course_name,
+               b.course_limit,
+               b.course_week_day,
+               b.course_start_time,
+               b.course_end_time
         from student_course_info a
-        left join course_info b on a.course_id = b.course_id
+                 left join course_info b on a.course_id = b.course_id
         where a.stu_id = #{studentId,jdbcType=VARCHAR}
     </select>
     <select id="selectCourse" resultType="com.example.courseselectmodule.po.CourseInfoPo">
         select
-        <include refid="Base_Column_List"></include>
+        <include refid="Course_Column_List"></include>
         from course_info
         where course_id = #{courseId,jdbcType=VARCHAR}
     </select>
     <select id="batchSelectCourse" resultType="com.example.courseselectmodule.po.CourseInfoPo">
         select
-        <include refid="Base_Column_List"></include>
+        <include refid="Course_Column_List"></include>
         from course_info
-        where course in
+        where course_id in
         <choose>
             <when test="courseIdList != null and courseIdList.size() > 0">
                 <foreach collection="courseIdList" item="courseId" open="(" close=")" separator=",">

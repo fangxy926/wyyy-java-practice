@@ -40,5 +40,5 @@ public interface StudentCourseInfoMapper {
      * @param item
      * @return
      */
-    int insert(StudentCourseInfoDto item);
+    int insert(StudentCourseInfoDto studentCourseInfoDto);
 }

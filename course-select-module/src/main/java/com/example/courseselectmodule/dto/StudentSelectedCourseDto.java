@@ -1,7 +1,5 @@
 package com.example.courseselectmodule.dto;
 
-import com.example.studentmodule.dto.StudentInfoDto;
-
 import java.util.List;
 
 public class StudentSelectedCourseDto {
@@ -9,18 +7,18 @@ public class StudentSelectedCourseDto {
     /**
      * 学生信息
      */
-    private StudentInfoDto studentInfo;
+    private String studentId;
     /**
      * 课程信息列表
      */
     private List<CourseInfoDto> courseList;
 
-    public StudentInfoDto getStudentInfo() {
-        return studentInfo;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setStudentInfo(StudentInfoDto studentInfo) {
-        this.studentInfo = studentInfo;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
     public List<CourseInfoDto> getCourseList() {
