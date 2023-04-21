@@ -75,7 +75,8 @@ CREATE TABLE `student_course_info`
     - CourseSystemApplication 项目启动类入口
     - resources: 项目配置文件
 - common-module: 公共功能模块
-    - config: 缓存，MyBatisPlus，Swagger配置
+    - cache: 缓存管理 
+    - config: MyBatisPlus，Swagger配置
     - enums: 通用枚举类
     - logging: 基于AOP切面的日志管理
     - response: 通用的API返回接口封装，状态码

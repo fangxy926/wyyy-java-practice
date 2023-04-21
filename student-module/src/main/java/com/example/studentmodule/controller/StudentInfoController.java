@@ -66,6 +66,7 @@ public class StudentInfoController {
         try {
             return studentService.searchStudentInfoWithClassInfoByID(studentID);
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.toString());
             return ServerResponse.createByErrorMessage("获取失败");
         }

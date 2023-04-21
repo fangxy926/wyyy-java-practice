@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentmodule.mapper.StudentInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.studentmodule.po.StudentInfoPo">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="stuId" column="stu_id" jdbcType="VARCHAR"/>
+        <result property="stuName" column="stu_name" jdbcType="VARCHAR"/>
+        <result property="stuSex" column="stu_sex" jdbcType="VARCHAR"/>
+        <result property="stuBirthday" column="stu_birthday" jdbcType="TIMESTAMP"/>
+        <result property="stuEngGrade" column="stu_eng_grade" jdbcType="VARCHAR"/>
+        <result property="stuClassId" column="stu_class_id" jdbcType="VARCHAR"/>
+        <result property="stuHeight" column="stu_height" jdbcType="DECIMAL"/>
+        <result property="stuIntro" column="stu_intro" jdbcType="VARCHAR"/>
+        <result property="stuPhone" column="stu_phone" jdbcType="VARCHAR"/>
+        <result property="stuAddress" column="stu_address" jdbcType="VARCHAR"/>
+        <result property="stuAdmissionDate" column="stu_admission_date" jdbcType="TIMESTAMP"/>
+        <result property="stuPiny" column="stu_piny" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="StudentInfoWithClass" type="com.example.studentmodule.po.StudentInfoPoExt" autoMapping="true">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="stuId" column="stu_id" jdbcType="VARCHAR"/>
+        <result property="stuName" column="stu_name" jdbcType="VARCHAR"/>
+        <result property="stuSex" column="stu_sex" jdbcType="VARCHAR"/>
+        <result property="stuBirthday" column="stu_birthday" jdbcType="TIMESTAMP"/>
+        <result property="stuEngGrade" column="stu_eng_grade" jdbcType="VARCHAR"/>
+        <result property="stuClassId" column="stu_class_id" jdbcType="VARCHAR"/>
+        <result property="stuHeight" column="stu_height" jdbcType="DECIMAL"/>
+        <result property="stuPhone" column="stu_phone" jdbcType="VARCHAR"/>
+        <result property="stuAddress" column="stu_address" jdbcType="VARCHAR"/>
+        <result property="stuAdmissionDate" column="stu_admission_date" jdbcType="TIMESTAMP"/>
+        <association property="classInfoPo" javaType="com.example.studentmodule.po.ClassInfoPo">
+            <result property="className" column="class_name"/>
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,stu_id,stu_name,
+        stu_sex,stu_birthday,stu_eng_grade,
+        stu_class_id,stu_height,stu_intro,
+        stu_phone,stu_address,stu_admission_date,
+        stu_piny
+    </sql>
+    <insert id="insertStudent" keyColumn="id" keyProperty="id"
+            parameterType="com.example.studentmodule.po.StudentInfoPo"
+            useGeneratedKeys="true">
+        insert into student_info (stu_id, stu_name, stu_sex, stu_birthday, stu_eng_grade,
+                                  stu_class_id, stu_height, stu_intro, stu_phone, stu_address,
+                                  stu_admission_date, stu_piny)
+        values (#{stuId}, #{stuName}, #{stuSex}, #{stuBirthday}, #{stuEngGrade}, #{stuClassId},
+                #{stuHeight}, #{stuIntro}, #{stuPhone}, #{stuAddress}, #{stuAdmissionDate}, #{stuPiny})
+    </insert>
+    <update id="updateStudent" parameterType="com.example.studentmodule.po.StudentInfoPo">
+        update student_info
+        <set>
+            <if test="stuName != null">
+                stu_name = #{stuName},
+            </if>
+            <if test="stuSex != null">
+                stu_sex = #{stuSex},
+            </if>
+            <if test="stuBirthday != null">
+                stu_birthday = #{stuBirthday},
+            </if>
+            <if test="stuEngGrade != null">
+                stu_eng_grade = #{stuEngGrade},
+            </if>
+            <if test="stuClassId != null">
+                stu_class_id = #{stuClassId},
+            </if>
+            <if test="stuHeight != null">
+                stu_height = #{stuHeight},
+            </if>
+            <if test="stuIntro != null">
+                stu_intro = #{stuIntro},
+            </if>
+            <if test="stuPhone != null">
+                stu_phone = #{stuPhone},
+            </if>
+            <if test="stuAddress != null">
+                stu_address = #{stuAddress},
+            </if>
+            <if test="stuAdmissionDate != null">
+                stu_admission_date = #{stuAdmissionDate},
+            </if>
+            <if test="stuPiny != null">
+                stu_piny = #{stuPiny},
+            </if>
+        </set>
+        where stu_id = #{stuId}
+    </update>
+    <select id="selectByID" resultType="com.example.studentmodule.po.StudentInfoPo">
+        select
+        <include refid="Base_Column_List"></include>
+        from student_info
+        where stu_id = #{studentID,jdbcType=VARCHAR}
+    </select>
+    <select id="selectStudentInfoWithClassInfoByID" resultMap="StudentInfoWithClass">
+        select *
+        from student_info a
+                 left join class_info b
+                           on a.stu_class_id = b.class_id
+        where a.stu_id = #{studentID,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectPageByClass" resultType="com.example.studentmodule.po.StudentInfoPo">
+        select
+        <include refid="Base_Column_List"></include>
+        from student_info
+        where stu_class_id = #{classID,jdbcType=VARCHAR}
+    </select>
+    <select id="selectPage" resultType="com.example.studentmodule.po.StudentInfoPo">
+        select
+        <include refid="Base_Column_List"></include>
+        from student_info
+        ${ew.customSqlSegment}
+    </select>
+</mapper>

@@ -113,7 +113,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    @Cacheable(cacheNames = "student_info_cache", keyGenerator = "apiKeyGenerator")
+    @Cacheable(cacheNames = {"student_info_cache#10"}, keyGenerator = "apiKeyGenerator")
     public ServerResponse<StudentInfoVo> searchStudentInfoWithClassInfoByID(String studentID) {
         StudentInfoPoExt poExt = studentInfoMapper.selectStudentInfoWithClassInfoByID(studentID);
         StudentInfoVo vo = new StudentInfoVo();
