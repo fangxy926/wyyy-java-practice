@@ -16,7 +16,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +46,13 @@ public class ControllerLogger {
             if (arg instanceof ServletResponse || arg instanceof MultipartFile) {
                 continue;
             } else if (arg instanceof ServletRequest) {
-//                HttpServletRequest req = (HttpServletRequest) arg;
-//                BufferedReader reader = new BufferedReader(new InputStreamReader(req.getInputStream()));
-//                String str = "";
+                HttpServletRequest req = (HttpServletRequest) arg;
+                BufferedReader reader = new BufferedReader(new InputStreamReader(req.getInputStream()));
+                String str = "";
                 String wholeStr = "";
-//                while ((str = reader.readLine()) != null) {
-//                    wholeStr = wholeStr + str;
-//                }
+                while ((str = reader.readLine()) != null) {
+                    wholeStr = wholeStr + str;
+                }
                 String url = request.getRequestURL().toString();
                 logger.info("[SYNC_Request]=>{}{}}", url, wholeStr);
             } else {
@@ -59,7 +61,8 @@ public class ControllerLogger {
         }
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-        logger.info("[{}_Request]=>{}.{}:{}", request.getMethod(), method.getDeclaringClass().getName(), method.getName(), JSONObject.toJSONString(serializableArgs));
+        logger.info("[{}_Request]=>{}.{}:{}", request.getMethod(), method.getDeclaringClass().getName(),
+                method.getName(), JSONObject.toJSONString(serializableArgs));
     }
 
 

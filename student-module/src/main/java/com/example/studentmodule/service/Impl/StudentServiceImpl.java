@@ -3,6 +3,7 @@ package com.example.studentmodule.service.Impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.commonmodule.mq.RocketMQProducer;
 import com.example.commonmodule.response.ServerResponse;
 import com.example.studentmodule.dto.StudentInfoDto;
 import com.example.studentmodule.mapper.StudentInfoMapper;
@@ -21,6 +22,10 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private StudentInfoMapper studentInfoMapper;
+
+
+    @Autowired
+    private RocketMQProducer rocketMQProducer;
 
     private ServerResponse<String> validStudentInfoCheck(StudentInfoDto student) {
         if (!ValidUtil.validStudentID(student.getStuId())) {
@@ -91,6 +96,7 @@ public class StudentServiceImpl implements StudentService {
         vo.setStuPhone(po.getStuPhone());
         vo.setStuAdmissionDate(po.getStuAdmissionDate());
         vo.setStuAddress(po.getStuAddress());
+        vo.setStuPiny(po.getStuPiny());
         return vo;
     }
 
@@ -161,6 +167,8 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public ServerResponse<String> addStudent(StudentInfoDto studentDto) {
         // 插入前校验
+        if (studentInfoMapper.checkExist(studentDto.getStuId()) > 0)
+            return ServerResponse.createByErrorMessage("学号已存在！");
         ServerResponse<String> checkRes = validStudentInfoCheck(studentDto);
         if (!checkRes.isSuccess()) return checkRes;
 
@@ -177,7 +185,13 @@ public class StudentServiceImpl implements StudentService {
         if (!checkRes.isSuccess()) return checkRes;
 
         int cnt = studentInfoMapper.updateStudent(studentDto);
-        return cnt > 0 ? ServerResponse.createBySuccess("修改成功") :
-                ServerResponse.createByErrorMessage("修改失败");
+        if (cnt > 0) {
+            rocketMQProducer.sendOnewayMessage("update_student_info",
+                    studentDto.getStuId(),
+                    String.format("学生 [%s] %s 信息修改成功.",
+                            studentDto.getStuId(), studentDto.getStuName()));
+            return ServerResponse.createBySuccess("修改成功");
+        }
+        return ServerResponse.createByErrorMessage("修改失败");
     }
 }

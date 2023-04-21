@@ -1,2 +1,10 @@
 server:
   port: 8888
+
+
+
+
+# swagger配置
+springfox:
+  documentation:
+    enabled: false #是否启用

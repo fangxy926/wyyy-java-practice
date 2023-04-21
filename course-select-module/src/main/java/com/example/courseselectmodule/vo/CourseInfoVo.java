@@ -1,6 +1,7 @@
 package com.example.courseselectmodule.vo;
 
 import com.example.studentmodule.vo.StudentInfoVo;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,35 +12,26 @@ import java.util.List;
  * @TableName course_info
  */
 public class CourseInfoVo implements Serializable {
-    /**
-     * 课程ID
-     */
+
+    @ApiModelProperty(value = "课程代码", example = "XC001")
     private String courseId;
-    /**
-     * 课程名
-     */
+
+    @ApiModelProperty(value = "课程名")
     private String courseName;
 
-    /**
-     * 已报人数
-     */
+    @ApiModelProperty(value = "已报人数")
     private Integer courseSelected;
-    /**
-     * 剩余可报人数
-     */
+
+    @ApiModelProperty(value = "剩余可报人数")
     private Integer courseRemain;
-    /**
-     * 课程报选人数上线
-     */
+
+    @ApiModelProperty(value = "课程报选人数上限")
     private Integer courseLimit;
-    /**
-     * 上课时间 星期 + 时间段
-     */
+
+    @ApiModelProperty(value = "上课时间", example = "周一 8:00-9:40")
     private String courseTimeRange;
 
-    /**
-     * 已选学生列表
-     */
+    @ApiModelProperty(value = "报课学生列表")
     private List<StudentInfoVo> courseStudents;
 
     public String getCourseId() {

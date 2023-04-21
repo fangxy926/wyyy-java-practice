@@ -3,13 +3,18 @@ package com.example.commonmodule.response;
  * 通用的API返回接口封装
  */
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 
 public class ServerResponse<T> implements Serializable {
 
-    private Integer status; //状态码
-    private String msg; // 返回内容
-    private T data; //返回数据
+    @ApiModelProperty(value = "状态码", example = "20000")
+    private Integer status;
+    @ApiModelProperty(value = "响应消息", example = "操作成功")
+    private String msg;
+    @ApiModelProperty(value = "响应数据")
+    private T data;
 
     /**
      * 构造一个有状态的API返回

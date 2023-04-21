@@ -1,6 +1,8 @@
 package com.example.studentmodule.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -9,72 +11,48 @@ import java.util.Date;
 /**
  * @TableName student_info
  */
+@ApiModel(description = "学生信息")
 public class StudentInfoDto implements Serializable {
-    /**
-     *
-     */
+
     private Long id;
 
-    /**
-     * 学号
-     */
+    @ApiModelProperty(value = "学号", example = "2010001", required = true)
     private String stuId;
 
-    /**
-     * 姓名
-     */
+    @ApiModelProperty(value = "学生姓名", example = "张三", required = true)
     private String stuName;
 
-    /**
-     * 性别
-     */
+    @ApiModelProperty(value = "性别", example = "男", required = true)
     private String stuSex;
 
-    /**
-     * 出生日期
-     */
+    @ApiModelProperty(value = "出生日期", example = "1998-01-01", required = true)
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date stuBirthday;
 
-    /**
-     * 英语等级
-     */
+    @ApiModelProperty(value = "英语等级", example = "4级")
     private String stuEngGrade;
 
-    /**
-     * 班级代码
-     */
+    @ApiModelProperty(value = "班级代码", example = "C01")
     private String stuClassId;
 
-    /**
-     * 身高
-     */
+    @ApiModelProperty(value = "身高", example = "178.5", dataType = "java.math.BigDecimal")
     private BigDecimal stuHeight;
 
-    /**
-     * 自我介绍
-     */
+
+    @ApiModelProperty(value = "自我介绍")
     private String stuIntro;
 
-    /**
-     * 手机号码
-     */
+    @ApiModelProperty(value = "手机号码", example = "15912345678")
     private String stuPhone;
 
-    /**
-     * 联系地址
-     */
+    @ApiModelProperty(value = "联系地址")
     private String stuAddress;
 
-    /**
-     * 入学日期
-     */
+    @ApiModelProperty(value = "入学日期", example = "2022-09-01", required = true)
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date stuAdmissionDate;
 
-    /**
-     * 拼音
-     */
+    @ApiModelProperty(value = "拼音", example = "zhangsan")
     private String stuPiny;
 
     private static final long serialVersionUID = 1L;

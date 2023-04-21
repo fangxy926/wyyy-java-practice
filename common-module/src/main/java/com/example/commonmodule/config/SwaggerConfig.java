@@ -1,8 +1,9 @@
 package com.example.commonmodule.config;
 
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
+import io.swagger.annotations.Api;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -16,33 +17,36 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * swagger3 配置文件
+ * swagger 配置文件
  */
 @Configuration
-//@EnableKnife4j
+@EnableKnife4j
 public class SwaggerConfig {
 
     @Bean
     public Docket webApiConfig() {
         return new Docket(DocumentationType.SWAGGER_2)
-//                .groupName("webApi")
                 .apiInfo(webApiInfo())
                 .select()
-//                .apis(RequestHandlerSelectors.basePackage("com.example.studentmodule.controller"))
-                .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
+                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
                 .paths(PathSelectors.any())
                 .build();
-                // 添加登录认证
+        // 添加登录认证
 //                .securityContexts(securityContexts())
 //                .securitySchemes(securitySchemes());
 
     }
 
+    /**
+     * 构建 api文档的详细信息函数
+     */
     private ApiInfo webApiInfo() {
+        String projectName = System.getProperty("user.dir");
         return new ApiInfoBuilder()
-                .title("系统API文档")
-                .description("本文档描述系统接口定义")
+                .title(projectName.substring(projectName.lastIndexOf("\\") + 1) + " API接口文档")
+                .contact(new Contact("fangxy", "", "xxx@qq.com"))
                 .version("1.0")
+                .description("API文档")
                 .build();
     }
 

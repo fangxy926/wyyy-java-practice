@@ -8,9 +8,18 @@ import java.util.List;
  * 课程时间类
  */
 public class CourseSchedule {
-    private int dayOfWeek; // 星期
-    private LocalTime startTime; // 开始时间
-    private LocalTime endTime; // 结束时间
+    /**
+     * 星期
+     */
+    private int dayOfWeek;
+    /**
+     * 开始时间
+     */
+    private LocalTime startTime;
+    /**
+     * 结束时间
+     */
+    private LocalTime endTime;
 
     public CourseSchedule(int dayOfWeek, LocalTime startTime, LocalTime endTime) {
         this.dayOfWeek = dayOfWeek;

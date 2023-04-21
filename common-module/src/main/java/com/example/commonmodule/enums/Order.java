@@ -1,9 +1,7 @@
 package com.example.commonmodule.enums;
 
 /**
- * @Description: 数据库排序枚举类
- * @Author: wwr
- * @Date: 2018/12/10
+ * 数据库排序枚举类
  */
 public enum Order {
 

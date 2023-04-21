@@ -1,5 +1,8 @@
 package com.example.commonmodule.enums;
 
+/**
+ * 性别枚举类
+ */
 public enum Sex {
     MALE("男"),
     FEMALE("女");

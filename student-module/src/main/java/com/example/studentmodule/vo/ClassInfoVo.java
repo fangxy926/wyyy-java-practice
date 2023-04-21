@@ -1,5 +1,7 @@
 package com.example.studentmodule.vo;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 
 /**
@@ -7,19 +9,13 @@ import java.io.Serializable;
  * @TableName class_info
  */
 public class ClassInfoVo implements Serializable {
-    /**
-     * 
-     */
+
     private Long id;
 
-    /**
-     * 班级代码
-     */
+    @ApiModelProperty(value = "班级代码", example = "C01")
     private String classId;
 
-    /**
-     * 班级名称
-     */
+    @ApiModelProperty(value = "班级名称", example = "班级01")
     private String className;
 
     private static final long serialVersionUID = 1L;

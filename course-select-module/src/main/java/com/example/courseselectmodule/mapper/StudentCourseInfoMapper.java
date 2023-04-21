@@ -12,16 +12,33 @@ import java.util.List;
 /**
  * @author yangman
  * @description 针对表【student_course_info(学生选课结果表)】的数据库操作Mapper
- * @createDate 2023-04-20 10:08:14
- * @Entity com.example.courseselectmodule.po.StudentCourseInfoPo
  */
 @Mapper
 public interface StudentCourseInfoMapper {
+    /**
+     * 查询报选课程的学生信息
+     *
+     * @param courseInfoDto
+     * @return
+     */
 
     List<StudentInfoPo> selectByCourse(CourseInfoDto courseInfoDto);
 
+    /**
+     * 统计课程的报名数
+     *
+     * @param courseId
+     * @return
+     */
+
     int countStudents(String courseId);
 
+    /**
+     * 统计学生的选课数
+     *
+     * @param stuId
+     * @return
+     */
     int countCourse(String stuId);
 
     int checkExist(@Param("studentInfo") StudentInfoDto studentInfo, @Param("courseList") List<CourseInfoDto> courseList);
@@ -37,7 +54,7 @@ public interface StudentCourseInfoMapper {
     /**
      * 插入一条选课结果
      *
-     * @param item
+     * @param studentCourseInfoDto
      * @return
      */
     int insert(StudentCourseInfoDto studentCourseInfoDto);

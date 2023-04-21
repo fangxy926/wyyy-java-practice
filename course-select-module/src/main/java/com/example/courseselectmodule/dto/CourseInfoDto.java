@@ -1,36 +1,30 @@
 package com.example.courseselectmodule.dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.Date;
 
 public class CourseInfoDto {
-    /**
-     * 课程ID
-     */
+
+    @ApiModelProperty(value = "课程代码", required = true)
     private String courseId;
 
-    /**
-     * 课程名
-     */
+    @ApiModelProperty(value = "课程名")
     private String courseName;
 
-    /**
-     * 课程报选人数上线
-     */
+
+    @ApiModelProperty(value = "课程报选人数上限")
     private Integer courseLimit;
 
-    /**
-     * 上课时间（星期）
-     */
+
+    @ApiModelProperty(value = "上课时间（星期）", example = "1", dataType = "java.util.Integer")
     private Integer courseWeekDay;
 
-    /**
-     * 上课时间（开始时刻）
-     */
+
+    @ApiModelProperty(value = "上课时间（开始时刻）")
     private Date courseStartTime;
 
-    /**
-     * 上课时间（j结束时刻）
-     */
+    @ApiModelProperty(value = "上课时间（结束时刻）")
     private Date courseEndTime;
 
 

@@ -6,10 +6,13 @@ import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Date;
 
+/**
+ * 日期工具类
+ */
 public class DateUtil {
     static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    static final DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-    static final DateFormat hourMinuteFormat = new SimpleDateFormat("hh:mm");
+    static final DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    static final DateFormat hourMinuteFormat = new SimpleDateFormat("HH:mm");
     static final DateFormat yearFormat = new SimpleDateFormat("yyyy");
 
     /**

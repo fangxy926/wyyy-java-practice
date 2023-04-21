@@ -51,6 +51,7 @@ public interface CourseSelectService {
 
     /**
      * 合法课程列表校验
+     *
      * @param strings
      * @return
      */

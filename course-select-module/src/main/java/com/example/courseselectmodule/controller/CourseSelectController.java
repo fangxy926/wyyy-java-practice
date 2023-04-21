@@ -10,6 +10,7 @@ import com.example.studentmodule.dto.StudentInfoDto;
 import com.example.studentmodule.vo.StudentInfoVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class CourseSelectController {
 
     @PostMapping(value = "/student_course")
     @ApiOperation(value = "根据学号查询选修课选修结果接口")
-    public ServerResponse<List<CourseInfoVo>> submitCourse(@RequestParam("studentId") String studentId) {
+    public ServerResponse<List<CourseInfoVo>> submitCourse(@RequestParam("studentId") @ApiParam(value = "学号", required = true, example = "2023001") String studentId) {
         try {
             return courseSelectService.listByStudentId(studentId);
         } catch (Exception e) {
@@ -55,7 +56,7 @@ public class CourseSelectController {
 
     @PostMapping(value = "/listCourseInfo")
     @ApiOperation(value = "根据课程ID列表查询已选报人数和剩余可报人数接口")
-    public ServerResponse<List<CourseInfoVo>> listCourseInfo(@RequestParam("courseList") List<String> courseList) {
+    public ServerResponse<List<CourseInfoVo>> listCourseInfo(@RequestParam("courseList") @ApiParam(value = "课程代码列表", required = true, example = "['XC001', 'XC002']") List<String> courseList) {
         try {
             return courseSelectService.batchListCourseInfo(courseList);
         } catch (Exception e) {
@@ -67,7 +68,7 @@ public class CourseSelectController {
 
     @PostMapping(value = "/listStudentsInfo")
     @ApiOperation(value = "根据课程ID查询选修学生信息列表接口")
-    public ServerResponse<List<StudentInfoVo>> listStudentsInfo(@RequestParam("courseId") String courseId) {
+    public ServerResponse<List<StudentInfoVo>> listStudentsInfo(@RequestParam("courseId") @ApiParam(value = "课程代码", required = true, example = "XC001") String courseId) {
         try {
             CourseInfoDto dto = new CourseInfoDto();
             dto.setCourseId(courseId);

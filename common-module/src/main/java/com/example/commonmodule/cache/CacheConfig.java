@@ -1,6 +1,5 @@
 package com.example.commonmodule.cache;
 
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +10,11 @@ import java.util.Arrays;
 @Configuration
 public class CacheConfig {
 
-    //自定义配置类配置keyGenerator
-
+    /**
+     * 自定义配置类配置keyGenerator
+     *
+     * @return
+     */
     @Bean("apiKeyGenerator")
     public KeyGenerator keyGenerator() {
         return new KeyGenerator() {

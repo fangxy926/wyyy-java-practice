@@ -9,7 +9,6 @@ public class StudentInfoPoExt extends StudentInfoPo implements Serializable {
      */
     private ClassInfoPo classInfoPo;
 
-
     public ClassInfoPo getClassInfoPo() {
         return classInfoPo;
     }

@@ -1,5 +1,8 @@
 package com.example.commonmodule.enums;
 
+/**
+ * 星期枚举类
+ */
 public enum WeekDay {
     MONDAY(1, "周一"),
     TUESDAY(2, "周二"),

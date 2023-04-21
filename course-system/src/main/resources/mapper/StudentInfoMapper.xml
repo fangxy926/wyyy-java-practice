@@ -125,4 +125,9 @@
         from student_info
         where stu_id = #{stuId,jdbcType=VARCHAR}
     </select>
+    <select id="checkExist" resultType="java.lang.Integer">
+        select count(*)
+        from student_info
+        where stu_id = #{studentId,jdbcType=VARCHAR}
+    </select>
 </mapper>
