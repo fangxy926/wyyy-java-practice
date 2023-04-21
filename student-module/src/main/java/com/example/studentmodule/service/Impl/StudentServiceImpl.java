@@ -16,13 +16,14 @@ import com.example.studentmodule.vo.StudentInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private StudentInfoMapper studentInfoMapper;
-
 
     @Autowired
     private RocketMQProducer rocketMQProducer;
@@ -186,10 +187,11 @@ public class StudentServiceImpl implements StudentService {
 
         int cnt = studentInfoMapper.updateStudent(studentDto);
         if (cnt > 0) {
-            rocketMQProducer.sendOnewayMessage("update_student_info",
-                    studentDto.getStuId(),
-                    String.format("学生 [%s] %s 信息修改成功.",
-                            studentDto.getStuId(), studentDto.getStuName()));
+// 发送消息
+//            rocketMQProducer.sendOnewayMessage("update_student_info",
+//                    studentDto.getStuId(),
+//                    String.format("学生 [%s] %s 信息修改成功.",
+//                            studentDto.getStuId(), studentDto.getStuName()));
             return ServerResponse.createBySuccess("修改成功");
         }
         return ServerResponse.createByErrorMessage("修改失败");

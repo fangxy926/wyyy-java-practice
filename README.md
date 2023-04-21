@@ -3,8 +3,8 @@
 ## 接口文档
 
 - swagger接口文档
-  - http://localhost:8080/swagger-ui/index.html
-  - http://localhost:8080/doc.html
+    - http://localhost:8080/swagger-ui/index.html
+    - http://localhost:8080/doc.html
 
 ## 数据库表结构
 
@@ -68,3 +68,19 @@ CREATE TABLE `student_course_info`
     UNIQUE KEY `student_course_info_UN` (`stu_id`,`course_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='学生选课结果表';
 ```
+
+## 项目结构
+
+- course-system
+    - CourseSystemApplication 项目启动类入口
+    - resources: 项目配置文件
+- common-module: 公共功能模块
+    - config: 缓存，MyBatisPlus，Swagger配置
+    - enums: 通用枚举类
+    - logging: 基于AOP切面的日志管理
+    - response: 通用的API返回接口封装，状态码
+    - mq: 消息队列服务
+    - utils: 通用工具类
+- student-module: 学生、班级信息管理功能模块
+- course-select-module: 选课功能模块
+

@@ -1,4 +1,4 @@
-package com.example.commonmodule.cache;
+package com.example.commonmodule.config;
 
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
