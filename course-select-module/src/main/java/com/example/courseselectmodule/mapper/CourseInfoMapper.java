@@ -21,4 +21,6 @@ public interface CourseInfoMapper {
     CourseInfoPo selectCourse(CourseInfoDto courseInfoDto);
 
     List<CourseInfoPo> batchSelectCourse(@Param("courseIdList") List<String> courseIdList);
+
+    int validateCourseList(List<String> courseIdList);
 }

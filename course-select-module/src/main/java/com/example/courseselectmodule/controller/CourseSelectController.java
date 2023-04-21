@@ -6,6 +6,7 @@ import com.example.courseselectmodule.dto.CourseInfoDto;
 import com.example.courseselectmodule.dto.StudentSelectedCourseDto;
 import com.example.courseselectmodule.service.CourseSelectService;
 import com.example.courseselectmodule.vo.CourseInfoVo;
+import com.example.studentmodule.dto.StudentInfoDto;
 import com.example.studentmodule.vo.StudentInfoVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,7 +31,10 @@ public class CourseSelectController {
     @ApiOperation(value = "学生报选选修课接口")
     public ServerResponse<String> submitCourse(@RequestBody StudentSelectedCourseDto dto) {
         try {
-            return courseSelectService.submitSelection(dto);
+            StudentInfoDto studentInfo = new StudentInfoDto();
+            studentInfo.setStuId(dto.getStudentId());
+            List<CourseInfoDto> courseList = dto.getCourseList();
+            return courseSelectService.submitSelection(studentInfo, courseList);
         } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.toString());

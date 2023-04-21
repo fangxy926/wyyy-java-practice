@@ -2,20 +2,18 @@ package com.example.courseselectmodule.service;
 
 import com.example.commonmodule.response.ServerResponse;
 import com.example.courseselectmodule.dto.CourseInfoDto;
-import com.example.courseselectmodule.dto.StudentSelectedCourseDto;
 import com.example.courseselectmodule.vo.CourseInfoVo;
+import com.example.studentmodule.dto.StudentInfoDto;
 import com.example.studentmodule.vo.StudentInfoVo;
 
 import java.util.List;
 
 public interface CourseSelectService {
+
     /**
      * 学生报选选修课接口
-     *
-     * @param dto
-     * @return
      */
-    ServerResponse<String> submitSelection(StudentSelectedCourseDto dto);
+    ServerResponse<String> submitSelection(StudentInfoDto student, List<CourseInfoDto> courseList);
 
 
     /**
@@ -50,4 +48,11 @@ public interface CourseSelectService {
      * @return
      */
     ServerResponse<List<StudentInfoVo>> listStudentInfo(CourseInfoDto courseInfoDto);
+
+    /**
+     * 合法课程列表校验
+     * @param strings
+     * @return
+     */
+    ServerResponse<Boolean> isValidCourseList(List<String> courseList);
 }

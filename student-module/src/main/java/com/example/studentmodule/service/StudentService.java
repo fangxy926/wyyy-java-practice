@@ -58,4 +58,12 @@ public interface StudentService {
      * @return
      */
     ServerResponse<IPage<StudentInfoVo>> pageListOrderByAge(int pageNum, int pageSize, String order);
+
+
+    /**
+     * 校验合法学生
+     * @param studentInfoDto
+     * @return
+     */
+    ServerResponse<Boolean> isValidStudent(StudentInfoDto studentInfoDto);
 }

@@ -7,6 +7,8 @@ import com.example.studentmodule.service.StudentService;
 import com.example.studentmodule.vo.StudentInfoVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,7 @@ public class StudentInfoController {
     @Autowired
     private StudentService studentService;
 
+    private final Logger logger = LoggerFactory.getLogger(StudentInfoController.class);
 
     @PostMapping(value = "/add")
     @ApiOperation(value = "添加学生")
@@ -25,6 +28,7 @@ public class StudentInfoController {
         try {
             return studentService.addStudent(studentInfoDto);
         } catch (Exception e) {
+            logger.error(e.toString());
             return ServerResponse.createByErrorMessage("新增失败，内部错误");
         }
     }
@@ -35,6 +39,8 @@ public class StudentInfoController {
         try {
             return studentService.updateStudent(studentInfoDto);
         } catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.toString());
             return ServerResponse.createByErrorMessage("修改失败，内部错误");
         }
     }
@@ -45,6 +51,7 @@ public class StudentInfoController {
         try {
             return studentService.searchStudentInfoByID(studentID);
         } catch (Exception e) {
+            logger.error(e.toString());
             return ServerResponse.createByErrorMessage("获取失败");
         }
     }
@@ -55,6 +62,7 @@ public class StudentInfoController {
         try {
             return studentService.searchStudentInfoWithClassInfoByID(studentID);
         } catch (Exception e) {
+            logger.error(e.toString());
             return ServerResponse.createByErrorMessage("获取失败");
         }
     }
@@ -67,6 +75,7 @@ public class StudentInfoController {
         try {
             return studentService.pageListByClass(classID, pageNum, pageSize);
         } catch (Exception e) {
+            logger.error(e.toString());
             return ServerResponse.createByErrorMessage("获取失败");
         }
     }
@@ -79,6 +88,7 @@ public class StudentInfoController {
         try {
             return studentService.pageListOrderByAge(pageNum, pageSize, order);
         } catch (Exception e) {
+            logger.error(e.toString());
             return ServerResponse.createByErrorMessage("获取失败");
         }
     }

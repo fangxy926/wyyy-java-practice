@@ -22,12 +22,12 @@ public class ValidUtil {
      * @return
      */
     public static boolean validStudentID(String studentID) {
+        System.out.println(studentID);
         // 7位长度数字正则表达式
         String regex = "^\\d{7}$";
         if (!studentID.matches(regex)) return false;
         // todo 是否有年份范围要求
-        if (!DateUtil.isYear(studentID.substring(0, 4))) return false;
-        return true;
+        return DateUtil.isYear(studentID.substring(0, 4));
     }
 
     /**

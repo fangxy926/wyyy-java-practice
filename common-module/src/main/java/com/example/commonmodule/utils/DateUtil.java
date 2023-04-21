@@ -43,9 +43,10 @@ public class DateUtil {
     public static boolean isYear(String str) {
         try {
             yearFormat.setLenient(false);
-            Date date = dateFormat.parse(str);
+            Date date = yearFormat.parse(str);
             return true;
         } catch (ParseException e) {
+            e.printStackTrace();
             return false;
         }
     }

@@ -46,7 +46,7 @@
         stu_piny
     </sql>
     <insert id="insertStudent" keyColumn="id" keyProperty="id"
-            parameterType="com.example.studentmodule.po.StudentInfoPo"
+            parameterType="com.example.studentmodule.dto.StudentInfoDto"
             useGeneratedKeys="true">
         insert into student_info (stu_id, stu_name, stu_sex, stu_birthday, stu_eng_grade,
                                   stu_class_id, stu_height, stu_intro, stu_phone, stu_address,
@@ -54,7 +54,7 @@
         values (#{stuId}, #{stuName}, #{stuSex}, #{stuBirthday}, #{stuEngGrade}, #{stuClassId},
                 #{stuHeight}, #{stuIntro}, #{stuPhone}, #{stuAddress}, #{stuAdmissionDate}, #{stuPiny})
     </insert>
-    <update id="updateStudent" parameterType="com.example.studentmodule.po.StudentInfoPo">
+    <update id="updateStudent" parameterType="com.example.studentmodule.dto.StudentInfoDto">
         update student_info
         <set>
             <if test="stuName != null">
@@ -118,5 +118,11 @@
         <include refid="Base_Column_List"></include>
         from student_info
         ${ew.customSqlSegment}
+    </select>
+    <select id="validateStudent" resultType="java.lang.Integer"
+            parameterType="com.example.studentmodule.dto.StudentInfoDto">
+        select count(*)
+        from student_info
+        where stu_id = #{stuId,jdbcType=VARCHAR}
     </select>
 </mapper>

@@ -6,7 +6,6 @@ import com.example.commonmodule.utils.DateUtil;
 import com.example.courseselectmodule.dto.CourseInfoDto;
 import com.example.courseselectmodule.dto.CourseSchedule;
 import com.example.courseselectmodule.dto.StudentCourseInfoDto;
-import com.example.courseselectmodule.dto.StudentSelectedCourseDto;
 import com.example.courseselectmodule.mapper.CourseInfoMapper;
 import com.example.courseselectmodule.mapper.StudentCourseInfoMapper;
 import com.example.courseselectmodule.po.CourseInfoPo;
@@ -14,6 +13,7 @@ import com.example.courseselectmodule.service.CourseSelectService;
 import com.example.courseselectmodule.vo.CourseInfoVo;
 import com.example.studentmodule.dto.StudentInfoDto;
 import com.example.studentmodule.po.StudentInfoPo;
+import com.example.studentmodule.service.StudentService;
 import com.example.studentmodule.vo.StudentInfoVo;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
@@ -36,6 +36,9 @@ public class CourseSelectServiceImpl implements CourseSelectService {
     private StudentCourseInfoMapper studentCourseInfoPoMapper;
 
     @Autowired
+    private StudentService studentService;
+
+    @Autowired
     private SqlSessionFactory sqlSessionFactory;
 
     /**
@@ -50,24 +53,30 @@ public class CourseSelectServiceImpl implements CourseSelectService {
     }
 
     @Override
-    public ServerResponse<String> submitSelection(StudentSelectedCourseDto studentSelectedCourseDto) {
-        StudentInfoDto studentInfo = new StudentInfoDto();
-        studentInfo.setStuId(studentSelectedCourseDto.getStudentId());
-        List<CourseInfoDto> courseInfoDtoList = studentSelectedCourseDto.getCourseList();
-        // 校验课程是否存在已选的课程
-        Set<String> courseSet = courseInfoDtoList.stream()
+    public ServerResponse<String> submitSelection(StudentInfoDto studentInfo, List<CourseInfoDto> courseList) {
+
+        // 校验学生是否合法
+        ServerResponse<Boolean> studentValidateResult = studentService.isValidStudent(studentInfo);
+        if (!studentValidateResult.getData()) {
+            return ServerResponse.createByErrorMessage("非法学生ID");
+        }
+        Set<String> courseSet = courseList.stream()
                 .map(CourseInfoDto::getCourseId)
                 .collect(Collectors.toSet());
-        if (courseSet.size() != courseInfoDtoList.size()) {
+        // 校验课程是否合法
+        ServerResponse<Boolean> courseValidateResult = this.isValidCourseList(new ArrayList<>(courseSet));
+
+        // 校验课程是否存在已选的课程
+        if (courseSet.size() != courseList.size()) {
             return ServerResponse.createByErrorMessage("存在重复选报的课程");
         }
-        int count = studentCourseInfoPoMapper.checkExist(studentInfo, courseInfoDtoList);
+        int count = studentCourseInfoPoMapper.checkExist(studentInfo, courseList);
         if (count > 0) {
             return ServerResponse.createByErrorMessage("存在重复选报的课程");
         }
         // 校验选课数上限
         int courseCount = studentCourseInfoPoMapper.countCourse(studentInfo.getStuId());
-        if (courseInfoDtoList.size() > 2 || courseCount + courseInfoDtoList.size() > 2) {
+        if (courseList.size() > 2 || courseCount + courseList.size() > 2) {
             return ServerResponse.createByErrorMessage("每个学生最多只能报选2门选修课");
         }
         // 从数据库中获取课程最新数据
@@ -182,6 +191,12 @@ public class CourseSelectServiceImpl implements CourseSelectService {
             studentInfoVos.add(vo);
         }
         return ServerResponse.createBySuccess("获取成功", studentInfoVos);
+    }
+
+    @Override
+    public ServerResponse<Boolean> isValidCourseList(List<String> courseIdList) {
+        int res = courseInfoMapper.validateCourseList(courseIdList);
+        return ServerResponse.createBySuccess(res == courseIdList.size());
     }
 
     /**

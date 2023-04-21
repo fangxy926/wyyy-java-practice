@@ -50,15 +50,15 @@ public class CourseSchedule {
                 if (scheduleA.getDayOfWeek() == scheduleB.getDayOfWeek()) {
                     if (scheduleA.getEndTime().isBefore(scheduleB.getStartTime()) ||
                             scheduleA.getStartTime().isAfter(scheduleB.getEndTime())) {
-                        // No conflict
+                        // 无冲突
                     } else {
-                        return true; // Conflict
+                        return true; // 有冲突
                     }
                 }
             }
         }
 
-        return false; // No conflict
+        return false; // 无冲突
     }
 
     public static void main(String[] args) {

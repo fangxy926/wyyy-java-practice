@@ -151,6 +151,12 @@ public class StudentServiceImpl implements StudentService {
         return ServerResponse.createBySuccess("获取成功", vos);
     }
 
+    @Override
+    public ServerResponse<Boolean> isValidStudent(StudentInfoDto studentInfoDto) {
+        int res = studentInfoMapper.validateStudent(studentInfoDto);
+        return ServerResponse.createBySuccess(res > 0);
+    }
+
 
     @Override
     public ServerResponse<String> addStudent(StudentInfoDto studentDto) {
@@ -158,7 +164,8 @@ public class StudentServiceImpl implements StudentService {
         ServerResponse<String> checkRes = validStudentInfoCheck(studentDto);
         if (!checkRes.isSuccess()) return checkRes;
 
-        int cnt = studentInfoMapper.insertStudent(convertStudentInfoDto2Po(studentDto));
+//        int cnt = studentInfoMapper.insertStudent(convertStudentInfoDto2Po(studentDto));
+        int cnt = studentInfoMapper.insertStudent(studentDto);
         return cnt > 0 ? ServerResponse.createBySuccess("添加成功") :
                 ServerResponse.createByErrorMessage("添加失败");
     }
@@ -169,7 +176,7 @@ public class StudentServiceImpl implements StudentService {
         ServerResponse<String> checkRes = validStudentInfoCheck(studentDto);
         if (!checkRes.isSuccess()) return checkRes;
 
-        int cnt = studentInfoMapper.updateStudent(convertStudentInfoDto2Po(studentDto));
+        int cnt = studentInfoMapper.updateStudent(studentDto);
         return cnt > 0 ? ServerResponse.createBySuccess("修改成功") :
                 ServerResponse.createByErrorMessage("修改失败");
     }

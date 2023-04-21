@@ -38,7 +38,8 @@
                  left join course_info b on a.course_id = b.course_id
         where a.stu_id = #{studentId,jdbcType=VARCHAR}
     </select>
-    <select id="selectCourse" resultType="com.example.courseselectmodule.po.CourseInfoPo">
+    <select id="selectCourse" resultType="com.example.courseselectmodule.po.CourseInfoPo"
+            parameterType="com.example.courseselectmodule.dto.CourseInfoDto">
         select
         <include refid="Course_Column_List"></include>
         from course_info
@@ -47,6 +48,22 @@
     <select id="batchSelectCourse" resultType="com.example.courseselectmodule.po.CourseInfoPo">
         select
         <include refid="Course_Column_List"></include>
+        from course_info
+        where course_id in
+        <choose>
+            <when test="courseIdList != null and courseIdList.size() > 0">
+                <foreach collection="courseIdList" item="courseId" open="(" close=")" separator=",">
+                    #{courseId, jdbcType=VARCHAR}
+                </foreach>
+            </when>
+            <otherwise>
+                (null)
+            </otherwise>
+        </choose>
+    </select>
+    <select id="validateCourseList" resultType="java.lang.Integer">
+        select
+        count(*)
         from course_info
         where course_id in
         <choose>

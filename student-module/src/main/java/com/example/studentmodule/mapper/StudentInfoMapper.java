@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.example.studentmodule.dto.StudentInfoDto;
 import com.example.studentmodule.po.StudentInfoPo;
 import com.example.studentmodule.po.StudentInfoPoExt;
 import org.apache.ibatis.annotations.Mapper;
@@ -20,9 +21,9 @@ public interface StudentInfoMapper extends BaseMapper<StudentInfoPo> {
 
     StudentInfoPo selectByID(String studentID);
 
-    int insertStudent(StudentInfoPo student);
+    int insertStudent(StudentInfoDto student);
 
-    int updateStudent(StudentInfoPo student);
+    int updateStudent(StudentInfoDto student);
 
     StudentInfoPoExt selectStudentInfoWithClassInfoByID(String studentID);
 
@@ -43,6 +44,15 @@ public interface StudentInfoMapper extends BaseMapper<StudentInfoPo> {
      * @return
      */
     IPage<StudentInfoPo> selectPage(IPage<StudentInfoPo> page, @Param(Constants.WRAPPER) QueryWrapper<StudentInfoPo> queryWrapper);
+
+
+    /**
+     * 合法学生校验
+     *
+     * @param studentInfoDto
+     * @return
+     */
+    int validateStudent(StudentInfoDto studentInfoDto);
 }
 
 
