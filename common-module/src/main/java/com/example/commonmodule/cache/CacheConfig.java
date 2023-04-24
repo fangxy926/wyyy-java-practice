@@ -55,8 +55,7 @@ public class CacheConfig {
     @Bean
     public CacheManager cacheManager() {
         RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig()
-//                .entryTtl(Duration.ofDays(1));
-//                .computePrefixWith(cacheName -> cacheName);
+                .entryTtl(Duration.ofDays(1));
         CustomRedisCacheManager redisCacheManager = new CustomRedisCacheManager(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory()), defaultCacheConfig);
         return redisCacheManager;
     }

@@ -175,7 +175,7 @@ public class StudentServiceImpl implements StudentService {
 
 //        int cnt = studentInfoMapper.insertStudent(convertStudentInfoDto2Po(studentDto));
         int cnt = studentInfoMapper.insertStudent(studentDto);
-        return cnt > 0 ? ServerResponse.createBySuccess("添加成功") :
+        return cnt > 0 ? ServerResponse.createBySuccessMessage("添加成功") :
                 ServerResponse.createByErrorMessage("添加失败");
     }
 
@@ -192,7 +192,7 @@ public class StudentServiceImpl implements StudentService {
 //                    studentDto.getStuId(),
 //                    String.format("学生 [%s] %s 信息修改成功.",
 //                            studentDto.getStuId(), studentDto.getStuName()));
-            return ServerResponse.createBySuccess("修改成功");
+            return ServerResponse.createBySuccessMessage("修改成功");
         }
         return ServerResponse.createByErrorMessage("修改失败");
     }
